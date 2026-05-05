@@ -14,10 +14,12 @@
     "type": "silverstripe-vendormodule",
     "license": "BSD-3-Clause",
     "require": {
-        "dnadesign/silverstripe-elemental": "^4.0 || ^5.0"
+        "php": "^8.4",
+        "dnadesign/silverstripe-elemental": "^6.0",
+        "silverstripe/cms": "^6.0"
     },
     "require-dev": {
-        "silverstripe/recipe-testing": "^2 || ^3.0"
+        "silverstripe/recipe-testing": "^4.0"
     },
     "config": {
         "process-timeout": 600
