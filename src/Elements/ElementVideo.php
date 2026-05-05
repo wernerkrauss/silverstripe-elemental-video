@@ -2,6 +2,7 @@
 
 namespace Dynamic\Elements\Video\Elements;
 
+use Override;
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
@@ -70,39 +71,40 @@ class ElementVideo extends BaseElement
     /**
      * @return FieldList
      */
+    #[Override]
     public function getCMSFields()
     {
-        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+        $this->beforeUpdateCMSFields(function (FieldList $fields): void {
 
             // Video Tab
-            $fields->insertAfter('Main', new Tab('VideoTab', _t(__CLASS__ . '.VideoTab', 'Video')));
+            $fields->insertAfter('Main', Tab::create('VideoTab', _t(self::class . '.VideoTab', 'Video')));
 
             // Video internal / self-hosted Video: MP4
             $fields->removeByName('VideoFileMP4');
-            $VideoFileMP4 = new UploadField('VideoFileMP4', 'Video (.mp4)');
+            $VideoFileMP4 = UploadField::create('VideoFileMP4', 'Video (.mp4)');
             $VideoFileMP4->setFolderName('Uploads/Elements/Video');
-            $VideoFileMP4->getValidator()-> setAllowedExtensions(array('mp4'));
+            $VideoFileMP4->getValidator()-> setAllowedExtensions(['mp4']);
             $VideoFileMP4->setDescription('Video in MP4 format');
             $fields->addFieldToTab('Root.VideoTab', $VideoFileMP4);
 
             // Video internal / self-hosted Video: WEBM
             $fields->removeByName('VideoFileWEBM');
-            $VideoFileWEBM = new UploadField('VideoFileWEBM', 'Video (.webm)');
+            $VideoFileWEBM = UploadField::create('VideoFileWEBM', 'Video (.webm)');
             $VideoFileWEBM -> setFolderName('Uploads/Elements/Video');
-            $VideoFileWEBM -> getValidator() -> setAllowedExtensions(array('webm'));
+            $VideoFileWEBM -> getValidator() -> setAllowedExtensions(['webm']);
             $VideoFileWEBM -> setDescription('Optional Video in WEBM format');
             $fields->addFieldToTab('Root.VideoTab', $VideoFileWEBM);
 
             // Video internal / self-hosted Video: OGV
             $fields->removeByName('VideoFileOGV');
-            $VideoFileOGV = new UploadField('VideoFileOGV', 'Video (.ogg, .ogv)');
+            $VideoFileOGV = UploadField::create('VideoFileOGV', 'Video (.ogg, .ogv)');
             $VideoFileOGV -> setFolderName('Uploads/Elements/Video');
-            $VideoFileOGV -> getValidator() -> setAllowedExtensions(array('ogv','ogg'));
+            $VideoFileOGV -> getValidator() -> setAllowedExtensions(['ogv','ogg']);
             $VideoFileOGV -> setDescription('Optional Video in OGG Theora format');
             $fields->addFieldToTab('Root.VideoTab', $VideoFileOGV);
 
             // Video: Credits
-            $MediaCredits = new HtmlEditorField('MediaCredits', 'Video Credits');
+            $MediaCredits = HTMLEditorField::create('MediaCredits', 'Video Credits');
             $MediaCredits -> setDescription('optional: weiterer Text, unter dem Video angezeigt');
             $fields -> addFieldTotab('Root.VideoTab', $MediaCredits);
 
@@ -123,6 +125,7 @@ class ElementVideo extends BaseElement
     /**
      * @return DBHTMLText
      */
+    #[Override]
     public function getSummary()
     {
         if ($this->Content) {
@@ -133,6 +136,7 @@ class ElementVideo extends BaseElement
     /**
      * @return array
      */
+    #[Override]
     protected function provideBlockSchema()
     {
         $blockSchema = parent::provideBlockSchema();
@@ -143,8 +147,9 @@ class ElementVideo extends BaseElement
     /**
      * @return string
      */
+    #[Override]
     public function getType()
     {
-        return _t(__CLASS__.'.BlockType', 'Video');
+        return _t(self::class.'.BlockType', 'Video');
     }
 }
